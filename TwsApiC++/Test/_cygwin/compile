@@ -1,0 +1,9 @@
+Echo === Making lib ===
+cd ../../_cygwin
+make
+echo
+echo
+echo
+Echo === Making test ===
+cd ../test/_cygwin
+make

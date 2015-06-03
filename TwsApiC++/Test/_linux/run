@@ -1,0 +1,4 @@
+# Test run
+#!/bin/sh
+./compile
+./debug/test.exe

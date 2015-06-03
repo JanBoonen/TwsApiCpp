@@ -1,0 +1,15 @@
+#!/bin/sh
+# Compile the linux library first
+# then compile the tests
+echo === Making lib ===
+echo cd ../../_linux
+cd ../../_linux
+echo make
+/usr/bin/make
+echo
+echo === Making test ===
+echo cd ../Test/_linux
+cd ../Test/_linux
+echo make
+/usr/bin/make
+

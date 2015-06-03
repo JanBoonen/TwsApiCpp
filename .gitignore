@@ -1,0 +1,6 @@
+*.obj
+*.exe
+*.a
+source/PosixClient/Shared/HScrollListBox.cpp
+source/PosixClient/Shared/HScrollListBox.h
+*.suo
