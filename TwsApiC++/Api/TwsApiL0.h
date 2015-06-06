@@ -111,7 +111,7 @@ public:
 #if 1	// set to 0 to prevent this warning message in debug mode
 #ifdef _DEBUG
 #undef  EWRAPPERL0_DEFAULT
-#define EWRAPPERL0_DEFAULT(id, name) printf( "#warning: empty default method EWrapperL0::%s(id=%d) was called!\n", name, id );
+#define EWRAPPERL0_DEFAULT(id, name) printf( "#warning: empty default method EWrapperL0::%s(id=%ld) was called!\n", name, static_cast<long int>(id) );
 #endif
 #endif
 
