@@ -40,11 +40,11 @@ The following explains it in more depth.
 
   By default this EReader is started and it runs in a separate thread. This garantees the incoming data is processed without any delay.
 
-  **Can be switched off** simply by passing a parameter when instantiating the EWrapper class. Of course, the user must call the non-blocking EClient::checkMessages() to check for incoming events (data) send by the TWS. [See Clients.cpp](blob/master/TwsApiC++/Test/Src/Clients.cpp)
+  **Can be switched off** simply by passing a parameter when instantiating the EWrapper class. Of course, the user must call the non-blocking EClient::checkMessages() to check for incoming events (data) send by the TWS. [See Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp)
 
 * Optionally, it provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs.
 
-  See [TwsApiDefs.h](TwsApiCpp/TwsApiC++/Api/TwsApiDefs.h)
+  See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h)
   
 
 ###Safety, Robustness and stability
