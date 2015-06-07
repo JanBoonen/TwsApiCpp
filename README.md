@@ -23,30 +23,26 @@ Well, nothing and a lot!
 
 TwsApiCpp does not introduce new features related with trading, but it offers a **back to basics** layer around the complex IB POSIX C++ api, and makes programming with it a lot **easier**, **safer** and **more robust**, and that's a lot when programming a trading system!
 
-That way, the focus is back on **what** to do **instead of how**.
+That way, the focus is back on **what** and **not how** to do things.
 
 It is **backward compatible with the non posix versions** and with older versions of the TWS. That might be important for the upcomming version 9.72!
 
-The following explains it in more depth.
+Next some points explained in more depth.
 
 ###Ease of use
 * It reinstates the **EClient** and **Ewrapper** in combination with the other classes in the **Shared** directory such as Contract, Order, Execution, etc. , as the interface to all the functionality offered by IB, and hides all the posix sockets related api issues introduced by IB since version 9.62.
 
   - No need to have knowledge about the POSIX specific classes in source/PosixClient/src and the socket low level programming. See the [wiki history](to do) page for a more lengthy explanation.
 
-  - **Resolves all POSIX socket connection related issues left to the programmer** and ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
+  - **Resolves all POSIX socket connection related issues left to the programmer**, i.e., it ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
 * Including just one file, TwsApiL0.h,  is enough to have access to the full functionality
 
-* It implements an empty method for every EWrapper method defined, no need to do it yourself.
-  On top of that, during debugging, it shows the methods called with he default empty implementation as a warning that maybe an implementation is needed in the trading system! You can switch it off.
+* It implements an default method for every EWrapper method. During debugging, these methods print a warning message when called to warn you that maybe an implementation is needed in the trading system! You can switch it off.
 
-* It provides a **non-blocking EClient::checkMessages()** call with following properties:
-  - calling it in an endless loop is possible and safe.
-  - it offers the fastest response without any delay;
-  - does consume less then 1% of the cpu in idle state (no incoming data);
+* It provides a **non-blocking EClient::checkMessages()** call which is safe to call in an endless loop without cpu usage penalty when idle: cpu usage less then 1% when no incoming data
 
-  See the example clients.cpp includes the Test directory
+  See the example [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp) that makes 8 connections simultaneously and calls each of the 8 checkMessages() in a loop.
   
 * It implements the **EReader** functionality as found in the Java api and in the MS Windows based version of the C++ api
 
@@ -54,7 +50,7 @@ The following explains it in more depth.
 
   - **Can be switched off** simply by passing a parameter when instantiating the EWrapper class. Of course, the user must call the non-blocking EClient::checkMessages() to check for incoming events (data) send by the TWS. See [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp)
 
-* Optionally, it provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs. See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h).
+* It provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs. See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h).
 
   A quick example:
 ```C++
@@ -70,13 +66,13 @@ The following explains it in more depth.
 ```
 
 ###Safety, Robustness and stability
-* It **protects** the inner workings of **the IB library against exceptions** thrown inadvertently from within the user code in the derived EWrapper methods.
+* It **protects** the inner workings of **the IB library against exceptions** thrown inadvertently from within the user code in the derived EWrapper methods. And as such, you don't need to put the code in a try/catch block yourself.
 
   - EWrapper is extended with a method onCatch() which the library calls when such exceptions occurs with information where it was triggered.
 
 * It **protects** the inner workings of **the IB library against concurrent use of its internal data**, which could lead to loss of requests send to the TWS.
 
-  This can happen when the EClient is called from different threads, i.e. the automatic ‘EReader’ thread is used and both the main thread and the EWrapper calls methods of EClient (i.e. buy or sell), and the main thread collects extra data from TWS.
+  This can happen when the EClient is called from different threads, i.e. the automatic ‘EReader’ thread is used and both the main thread and the EWrapper call methods of EClient.
 
 * It is **by design a ‘closed’ library**, meaning you cannot derive from its EClient class directly and overwrites its methods.
 
