@@ -14,7 +14,8 @@ No need to install the IB api first, this project includes all the IB POSIX C++ 
 * dir source/PosixClient contains the needed copy of the IB POSIX C++ sources.
 
 ## Examples programs
-There are some examples programs included in the Test directory. The most usefull downloads hystorical data.
+There are some examples programs included in the [TwsApiC++/Test/Src](https://github.com/JanBoonen/TwsApiCpp/tree/master/TwsApiC%2B%2B/Test/Src) directory.
+
 
 ## What does TwsApiCpp offers you
 
@@ -30,13 +31,15 @@ The following explains it in more depth.
 
 ###Ease of use
 * It reinstates the **EClient** and **Ewrapper** in combination with the other classes in the **Shared** directory such as Contract, Order, Execution, etc. , as the interface to all the functionality offered by IB, and hides all the posix sockets related api issues introduced by IB since version 9.62.
+
   - No need to have knowledge about the POSIX specific classes in source/PosixClient/src and the socket low level programming. See the [wiki history](to do) page for a more lengthy explanation.
+
   - **Resolves all POSIX socket connection related issues left to the programmer** and ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
 * Including just one file, TwsApiL0.h,  is enough to have access to the full functionality
 
 * It implements an empty method for every EWrapper method defined, no need to do it yourself.
-  On top of that, during debugging, it shows what methods got called but didn't get an implementation in the trading system to warn the programer that maybe an implementation is needed! You can switch it of.
+  On top of that, during debugging, it shows the methods called with he default empty implementation as a warning that maybe an implementation is needed in the trading system! You can switch it off.
 
 * It provides a **non-blocking EClient::checkMessages()** call with following properties:
   - calling it in an endless loop is possible and safe.
@@ -51,8 +54,20 @@ The following explains it in more depth.
 
   - **Can be switched off** simply by passing a parameter when instantiating the EWrapper class. Of course, the user must call the non-blocking EClient::checkMessages() to check for incoming events (data) send by the TWS. See [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp)
 
-* Optionally, it provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs. See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h)
-  
+* Optionally, it provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs. See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h).
+
+  A quick example:
+```C++
+  // Instead of writing
+  if( key == "LookAheadAvailableFunds" ) { ... }
+  // you can write 
+  if( UpdateAccountValueKey(key) == UpdateAccountValueKey::LookAheadAvailableFunds ) { ... }
+  //  or
+  switch( UpdateAccountValueKey(key) ) {
+    case UpdateAccountValueKey::LookAheadAvailableFunds:
+  // Just imagine you wrote
+  if( key == "LookaheadAvailableFunds" ) { ... } // hmm, is never called
+```
 
 ###Safety, Robustness and stability
 * It **protects** the inner workings of **the IB library against exceptions** thrown inadvertently from within the user code in the derived EWrapper methods.
