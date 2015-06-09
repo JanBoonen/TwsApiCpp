@@ -15,28 +15,31 @@ TwsApiL0.cpp
 #include "TwsApiDefs.h"
 #endif
 
+
+#ifndef WIN32
+	#include <sys/socket.h>	//
+#endif
+#define private public				// to get access to send and receive
+#include "EPosixClientSocket.cpp"
+#include "EClientSocketBase.cpp"	//	CLIENT_VERSION
+#undef private
+
 #ifdef WIN32
 #ifndef CorrectAfxWinIncluded
 #error Not the correct afxwin.h included.
 #endif
 #endif
 
+
 #ifdef WIN32
 	#include <windows.h>	// for mutex
 	#include <process.h>	// for Sleep
 	#define CurrentThreadId GetCurrentThreadId
 #else
-	#include <sys/socket.h>	//
 	#include <pthread.h>	// for mutex
 	#define Sleep( m ) usleep( m*1000 )
 	#define CurrentThreadId pthread_self
 #endif
-
-
-#define private public				// to get access to send and receive
-#include "EPosixClientSocket.cpp"
-#include "EClientSocketBase.cpp"	//	CLIENT_VERSION
-#undef private
 
 
 #define _TRY_    try{
