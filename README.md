@@ -32,7 +32,7 @@ Next some points explained in more depth.
 ###Ease of use
 * It reinstates the **EClient** and **Ewrapper** in combination with the other classes in the **Shared** directory such as Contract, Order, Execution, etc. , as the interface to all the functionality offered by IB, and hides all the posix sockets related api issues introduced by IB since version 9.62.
 
-  - No need to have knowledge about the POSIX specific classes in source/PosixClient/src and the socket low level programming. See the [wiki history](to do) page for a more lengthy explanation.
+  - No need to have knowledge about the POSIX specific classes in source/PosixClient/src and the socket low level programming. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/Home---History) page for a more lengthy explanation.
 
   - **Resolves all POSIX socket connection related issues left to the programmer**, i.e., it ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
