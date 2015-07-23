@@ -1,38 +1,35 @@
 # TwsApiCpp
-(same project as TwsApiC++ in Yahoo TWSAPI)
 
-Makes programming with the IB POSIX C++ api significant easier, safer, and more robust.
+TwsApiC++ is availble freely since 2008 in [Yahoo's Interactive Brokers TWS APIDiscussion Groups](https://groups.yahoo.com/neo/groups/TWSAPI/files/C%2B%2B%20Code/TwsApiC%2B%2B%20Directory/). Versions 9.71 and up will be available only via this Github.
 
-It keeps the **focus** of the programmer **on the trading system**, instead of how to do things right with a socket connection
+The goal of TwsApiC++ is to hide all the specific 'IB POSIX' api stuff for the application programmer while
+* no limitation on the use of all features offered in the IB api
+* adding safety, robustness and easy of use 
 
-The footprint of the library is small and its code is fast. 
+See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/Home---History) page for a more lengthy history and why it was created.
 
 ## Compiling and execution
-No need to install the IB api first, this project includes all the IB POSIX C++ source files needed. Unix/linux make files and Visual Studio project files are included as well. It should compile 'out of the box'. The compiled libraries are written into TwsApiCpp/TwsApiC++/Api/ and can be linked from there.
+This project includes all necessary IB POSIX C++ source files, no need to install the IB api first.
 
-* dir TwsApiC++ contains the sources code for this library
-* dir source/PosixClient contains the needed copy of the IB POSIX C++ sources.
+TwsApiC++ has been installed and compiled on many different platforms. Unix/linux make files and Visual Studio project files are included.
+* directory TwsApiC++ contains the specific non IB sources code for this library
+* directory source/PosixClient contains the copy of the IB POSIX C++ sources.
+* sub-directories _cygwin, _linux and _win32 contain the make/project files respectivey
+It should normaly compile 'out of the box' and the compiled libraries are written into TwsApiCpp/TwsApiC++/Api/ and can be linked from there.
+
+The footprint of the library is small and fast. 
 
 ## Examples programs
 There are some examples programs included in the [TwsApiC++/Test/Src](https://github.com/JanBoonen/TwsApiCpp/tree/master/TwsApiC%2B%2B/Test/Src) directory.
 
 
-## What does TwsApiCpp offers you
-
-Well, nothing and a lot!
-
-TwsApiCpp does not introduce new features related with trading, but it offers a **back to basics** layer around the complex IB POSIX C++ api, and makes programming with it a lot **easier**, **safer** and **more robust**, and that's a lot when programming a trading system!
-
-That way, the focus is back on **what** and **not how** to do things.
-
-It is **backward compatible with the non posix versions** and with older versions of the TWS. That might be important for the upcomming version 9.72!
-
-Next some points explained in more depth.
+## Features - what makes the use of TwsApiC++ worthwile
 
 ###Ease of use
-* It reinstates the **EClient** and **Ewrapper** in combination with the other classes in the **Shared** directory such as Contract, Order, Execution, etc. , as the interface to all the functionality offered by IB, and hides all the posix sockets related api issues introduced by IB since version 9.62.
+* It reinstates the **EClient** and **EWrapper** in combination with the other classes (Contract, Order, Execution, etc) in the **Shared** directory as the interface to all the functionality offered by IB
 
-  - No need to have knowledge about the POSIX specific classes in source/PosixClient/src and the socket low level programming. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/Home---History) page for a more lengthy explanation.
+
+  - No need to have knowledge about the POSIX specific classes in source/PosixClient/src and the socket low level programming introduced in version 9.62. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/Home---History) page for a more lengthy explanation.
 
   - **Resolves all POSIX socket connection related issues left to the programmer**, i.e., it ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
@@ -85,6 +82,8 @@ Next some points explained in more depth.
 * It **protects** the inner workings of **the IB library against concurrent use of its internal data**, which could lead to loss of requests send to the TWS.
 
   This can happen when the EClient is called from different threads, i.e. the automatic ‘EReader’ thread is used and both the main thread and the EWrapper call methods of EClient.
+
+* **Resolves all POSIX socket connection related issues left to the programmer**, i.e., it ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
 * It is **by design a ‘closed’ library**, meaning you cannot derive from its EClient class directly and overwrites its methods.
 
