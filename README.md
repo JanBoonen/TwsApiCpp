@@ -8,7 +8,7 @@ It keeps the **focus** of the programmer **on the trading system**, instead of h
 The footprint of the library is small and its code is fast. 
 
 ## Compiling and execution
-No need to install the IB api first, this project includes all the IB POSIX C++ source files needed. Unix/linux make files and Visual Studio project files are included as well. It should compile 'out of the box'.
+No need to install the IB api first, this project includes all the IB POSIX C++ source files needed. Unix/linux make files and Visual Studio project files are included as well. It should compile 'out of the box'. The compiled libraries are written into TwsApiCpp/TwsApiC++/Api/ and can be linked from there.
 
 * dir TwsApiC++ contains the sources code for this library
 * dir source/PosixClient contains the needed copy of the IB POSIX C++ sources.
@@ -42,33 +42,45 @@ Next some points explained in more depth.
 
 * It provides a **non-blocking EClient::checkMessages()** call which is safe to call in an endless loop without cpu usage penalty when idle: cpu usage less then 1% when no incoming data
 
-  See the example [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp) that makes 8 connections simultaneously and calls each of the 8 checkMessages() in a loop.
+  See the example [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp?ts=4) that makes 8 connections simultaneously and calls each of the 8 checkMessages() in a loop.
   
 * It implements the **EReader** functionality as found in the Java api and in the MS Windows based version of the C++ api
 
   - By default this EReader runs in a separate thread and sits waiting for incoming data and processes it without any delay.
 
-  - **Can be switched off** simply by passing a parameter when instantiating the EWrapper class. Of course, the user must call the non-blocking EClient::checkMessages() to check for incoming events (data) send by the TWS. See [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp)
+  - **Can be switched off** simply by passing a parameter when instantiating the EWrapper class. Of course, the user must call the non-blocking EClient::checkMessages() to check for incoming events (data) send by the TWS. See [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp?ts=4)
 
-* It provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs. See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h).
+* It provides a way to check the correct spelling of the many textual or numeric parameters at compile time instead of runtime. This can reduce the test effort considerably, or even bring up hidden errors only discovered until a rare situation occurs. See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h?ts=4).
 
   A quick example:
 ```C++
-  // Instead of writing
+  // Just imagine you wrote
+  if( key == "LookaheadAvailableFunds" ) { ... } // hmm, will never be executed
+  // => Correct spelling is
   if( key == "LookAheadAvailableFunds" ) { ... }
+  
   // you can write 
   if( UpdateAccountValueKey(key) == UpdateAccountValueKey::LookAheadAvailableFunds ) { ... }
   //  or
   switch( UpdateAccountValueKey(key) ) {
     case UpdateAccountValueKey::LookAheadAvailableFunds:
-  // Just imagine you wrote
-  if( key == "LookaheadAvailableFunds" ) { ... } // hmm, is never called
+    break;
+    ...
+    case UpdateAccountValueKey::_INVALID_:  // key was not recognised
+    break;
+    
+    default:
+    break;
+  }
+
+  // and the following would raise a compiling error
+  if( UpdateAccountValueKey(key) == UpdateAccountValueKey::LookaheadAvailableFunds ) { ... }
 ```
 
 ###Safety, Robustness and stability
 * It **protects** the inner workings of **the IB library against exceptions** thrown inadvertently from within the user code in the derived EWrapper methods. And as such, you don't need to put the code in a try/catch block yourself.
 
-  - EWrapper is extended with a method onCatch() which the library calls when such exceptions occurs with information where it was triggered.
+  EWrapper is extended with a method onCatch() which the library calls when such exceptions occurs with information where it was triggered.
 
 * It **protects** the inner workings of **the IB library against concurrent use of its internal data**, which could lead to loss of requests send to the TWS.
 
@@ -80,7 +92,7 @@ Next some points explained in more depth.
 
 * It garantees the EWRapper::connectionClosed() is called when the connection is closed for any reason, on purpose or not.
 
-    - It sends every second a ‘heartbeat’ to check the connection is still alive. This ensures the closing of the connection is detected in case something went wrong leaving the connection in an undefined status
+  It sends every second a ‘heartbeat’ to check the connection is still alive. This ensures the closing of the connection is detected in case something went wrong leaving the connection in an undefined status
 
   Note: There is no automatic reconnection
   
