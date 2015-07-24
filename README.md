@@ -4,7 +4,7 @@ TwsApiC++ is a library build on top of the IB POSIX C++ library. It's goal is to
 
 TwsApiC++ is availble freely since 2008 in [Yahoo's Interactive Brokers TWS APIDiscussion Groups](https://groups.yahoo.com/neo/groups/TWSAPI/files/C%2B%2B%20Code/TwsApiC%2B%2B%20Directory/). Versions 9.71 and up will be available only via this Github.
 
-See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/Home---History) page for a more lengthy history and why it was created.
+See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/History) page for a more lengthy history and why it was created.
 
 TwsApiC++ is a ‘closed’ library. You cannot derive from its EClient class directly and overwrites its methods. This is on purpose to ensure it's integrity (and it's build in safety measures) as a whole. And why would you? Your trading system **is not** an EClient but **uses** the EClient to achieve it's goal. It could use in fact any other broker api besides IB.
 
