@@ -21,8 +21,9 @@ It should normaly compile 'out of the box' and the compiled libraries are writte
 The footprint of the library is small and fast. 
 
 ## Examples programs
-There are some examples programs included in the [TwsApiC++/Test/Src](https://github.com/JanBoonen/TwsApiCpp/tree/master/TwsApiC%2B%2B/Test/Src) directory.
+There are some examples programs included in the delivery in the [TwsApiC++/Test/Src](https://github.com/JanBoonen/TwsApiCpp/tree/master/TwsApiC%2B%2B/Test/Src) directory.
 
+An simple example that demonstrates some strengths of the library is [Retrieve History](https://github.com/JanBoonen/TwsApiCpp/wiki/Example---Retrieve-History) in the wiki pages.
 
 ## Features - what makes the use of TwsApiC++ worthwile
 
