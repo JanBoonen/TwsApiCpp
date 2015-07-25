@@ -25,39 +25,55 @@ There are some examples programs included in the delivery in the [TwsApiC++/Test
 
 An simple example that demonstrates some strengths of the library is [Retrieve History](https://github.com/JanBoonen/TwsApiCpp/wiki/Example---Retrieve-History) in the wiki pages.
 
-## Features - what makes the use of TwsApiC++ worthwile
+## What makes the use of TwsApiC++ worthwile
 
-###Ease of use
 * **Easy access to ful functionality**
 
-  Including **TwsApiL0.h** is all it takes to have access to the full functionality
+  Including **TwsApiL0.h** is all it takes to have access to the full functionality.
 
-  It reinstates the **EClient** and **EWrapper** in combination with the other classes (Contract, Order, Execution, etc) in the **Shared** directory as the interface to all the functionality offered by IB
+* **No knowledge of sockets programming required**
+
+  It reinstates the **EClient** and **EWrapper** in combination with the other classes (Contract, Order, Execution, etc) in the **[Shared](https://github.com/JanBoonen/TwsApiCpp/tree/master/source/PosixClient/Shared)** directory as the interface to all the functionality offered by IB
   
   To achieve that, TwsApiC++ takes care of the specific POSIX classes in source/PosixClient/src and these socket low level programming features one should not bothered with. These were inroduced in version 9.62. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/Home---History) page for a more lengthy explanation.
   
   
-* **Default empty method for each EWrapper method**
+* **Resolves socket connection related issues left to the programmer in the IB POSIX implementation**
 
-  This means that you don't have to implement each EWrapper methods for yourself. TwsApiC++ does that for you. To prevent certain events are passed by unnoticed, these default methods print a warning message (see #define EWRAPPERL0_DEFAULT) when called.
-
-
-* **EReader**
-
-  TwsApiC++ implements EReader functionality as found in the Java api and in the MS Windows based version of the C++ api. It runs in a separate thread and waits for incoming data to processes it without any delay.
-
-  Can be switched off simply by passing a parameter when instantiating the EWrapper class. In that case repetitive calling the non-blocking EClient::checkMessages() (see below) is necessarily to check for incoming events (data) send by the TWS. See [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp?ts=4)
+  TwsApiC++ ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
 
-* **non-blocking EClient::checkMessages()**
+* **Provides default empty method for each EWrapper method**
 
-  The IB's implementation of EClient::checkMessage() call halts the programs until data is send to the client. TwsApiC++ overloads this method as a non-blocking call which is safe to call in an endless loop without cpu usage penalty when idle (less then 1% when no incoming data).
+  This means that you don't have to implement each EWrapper methods for yourself. TwsApiC++ does that for you.
+
+
+* **Notifies when EWrapper methods without implementation are called**
+
+  To prevent certain events are passed by unnoticed, these default methods print a warning message (see #define EWRAPPERL0_DEFAULT) when called. This helps when 'discovering' how the IB api works and what calls are involved, as that is will not always be clear from the documentation.
   
-  See the example [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp?ts=4). It makes 8 connections simultaneously (maximum possible per client) and calls each of the 8 checkMessages() in a loop.
-  
-* **Use of the many textual and numeric parameter values**
+  Only in debug mode.
 
-  As a programmer, you need to pass a lot of textual parameters into the EClient methods parameters and or you have to compare strings returned in teh EWrapper to see what kind of data is send to your EWrapper. This is a big issue because these values are not always very well documented and making a typo can be hard to detect at runtime.
+
+* **Provides 'EReader'**
+
+  TwsApiC++ implements EReader functionality as found in the Java api and in the MS Windows based version of the C++ api. It runs in a separate thread and sits waiting for incoming data to process it without any delay (calling your EWrapper).
+
+  Can be switched off simply by passing a parameter when instantiating the EWrapper class. In that case repetitive calling the non-blocking EClient::checkMessages() (see below) is necessarily to check for incoming events (data) send by the TWS.
+  
+  See [Example: With or without the 'EReader'](https://github.com/JanBoonen/TwsApiCpp/wiki/Example:-With-or-without-the-'EReader')
+
+
+* **Provides non-blocking EClient::checkMessages()**
+
+  The IB's implementation of EClient::checkMessage() call halts the programs until data is send to the client. TwsApiC++ overloads this method as a non-blocking call that waits for maximum 1 millisecond and which is safe to call in an endless loop without cpu usage penalty: when no data is received.
+  
+  See the example [Clients.cpp](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Test/Src/Clients.cpp?ts=4). It makes 8 connections simultaneously (maximum possible per client) and calls each of the 8 checkMessages() in a loop, or uses the EReader for each connection.
+
+  
+* **Provides help with the many textual and numeric parameter values**
+
+  As a programmer, you need to pass a lot of textual parameters into the EClient methods parameters and you have to compare incomings strings parameters in the EWrapper to interprete them. This is a big issue because these values are not always very well documented and making a typo can be hard to detect at runtime.
 
   TwsApiC++ has predefined these values:
   -- allows them to use as named parameters what enables the compiler to check
@@ -93,24 +109,18 @@ An simple example that demonstrates some strengths of the library is [Retrieve H
   See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h?ts=4).
 
 
-###Safety, Robustness, and stability
-* **Exceptions from within the users EWrapper code - onCatch()**
+* **Protects the original IB code from uncatched exceptions thrown from the users EWrapper code**
 
-  TwsApiC++ protects the inner workings of the IB library against exceptions thrown inadvertently from within the user code in the derived EWrapper methods. Otherwise, these woud raise error *509, "Exception caught while reading socket - "* and parsing the incoming data would be halted.
+  TwsApiC++ protects the inner workings of the IB library against exceptions thrown inadvertently from within the user code statements in the derived EWrapper methods. Otherwise, these woud raise error *509, "Exception caught while reading socket - "* and parsing the incoming data would be halted.
 
   TwsApiC++ extends EWrapper with the method **onCatch( const char* MethodName, const long Id )** and calls it when it intercepts such exception.
 
 
-* **Unintentionally concurrent use of its internal data**
+* **Protects the user against unintentionally concurrent use of its internal data**
 
   Calling the same instance of EClient simultaniously could lead to the loss of requests send to the TWS, i.e. when the automatic ‘EReader’ thread is used and both the main thread and the EWrapper call methods of EClient.
   
   TwsApiC++ uses critical sections to prevents this situation.
-
-
-* **POSIX socket connection related issues left to the programmer**
-
-  TwsApiC++ ensures no data is stuck in the internal buffer of the IB api when the first attempt to send it to the TWS fails for some reason. Otherwise, it would sit there until the next EClient call is executed.
 
 
 * **‘closed’ library by design**
