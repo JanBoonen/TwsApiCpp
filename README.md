@@ -50,14 +50,14 @@ An simple example that demonstrates some strengths of the library is [Retrieve H
 
 * **Notifies when EWrapper methods without implementation are called**
 
-  To prevent certain events are passed by unnoticed, these default methods print a warning message (see #define EWRAPPERL0_DEFAULT) when called. This helps when 'discovering' how the IB api works and what calls are involved, as that is will not always be clear from the documentation.
+  When starting with the api, it might not always be clear from the documentation what events (methods in the EWrapper) are involved (called). The default methods therefore print a warning message (see #define EWRAPPERL0_DEFAULT) when called to ensure each method involved gets it implementation
   
   Only in debug mode.
 
 
 * **Provides 'EReader'**
 
-  TwsApiC++ implements EReader functionality as found in the Java api and in the MS Windows based version of the C++ api. It runs in a separate thread and sits waiting for incoming data to process it without any delay (calling your EWrapper).
+  TwsApiC++ implements EReader functionality as found in the Java api and in the MS Windows based version of the C++ api. It runs in a separate thread and sits there waiting for incoming data to be processed without any delay (calling your EWrapper).
 
   Can be switched off simply by passing a parameter when instantiating the EWrapper class. In that case repetitive calling the non-blocking EClient::checkMessages() (see below) is necessarily to check for incoming events (data) send by the TWS.
   
