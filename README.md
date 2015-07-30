@@ -50,7 +50,9 @@ An simple example that demonstrates some strengths of the library is [Retrieve H
 
 * **Notifies when EWrapper methods without implementation are called**
 
-  When starting with the api, it might not always be clear from the documentation what events (methods in the EWrapper) are involved (called). The default methods therefore print a warning message (see #define EWRAPPERL0_DEFAULT) when called to ensure each method involved gets it implementation
+  When starting with the api, it might not always be clear from the documentation what events (methods in the EWrapper) are involved (called). The default methods therefore print a warning message (see #define EWRAPPERL0_DEFAULT) when called to ensure each method involved gets it implementation.
+  
+  Another situation might be that you made a mistake in definition of the method, or that the method signature got changed in the newer version. In that case, the default methods is called instead of yours. The notification will alert you.
   
   Only in debug mode.
 
