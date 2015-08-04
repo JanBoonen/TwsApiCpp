@@ -6,4 +6,4 @@ echo
 echo
 Echo === Making test ===
 cd ../test/_cygwin
-make
+make all
