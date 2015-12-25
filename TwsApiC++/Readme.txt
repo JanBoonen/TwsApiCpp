@@ -5,8 +5,7 @@ Released as is and free to use, but when used in a commercial environment, docum
 
 By
 Jan Boonen
-Vaartdijk 7
-1981 Hofstade
+Hofstade
 Belgium
 
 
