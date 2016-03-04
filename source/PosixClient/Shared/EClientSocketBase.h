@@ -16,6 +16,8 @@ class EClientSocketBase : public EClient
 {
 public:
 
+	friend class EClientL0Impl;
+
 	explicit EClientSocketBase(EWrapper *ptr);
 	~EClientSocketBase();
 

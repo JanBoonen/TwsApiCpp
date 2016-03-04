@@ -12,6 +12,8 @@ class EPosixClientSocket : public EClientSocketBase
 {
 public:
 
+	friend class EClientL0Impl;
+
 	explicit EPosixClientSocket( EWrapper *ptr);
 	~EPosixClientSocket();
 

@@ -19,7 +19,8 @@ TwsApiL0.cpp
 #ifndef WIN32
 	#include <sys/socket.h>	//
 #endif
-#define private public				// to get access to send and receive
+// (4 march 2013) JBOO #define replaced by friend class EClientL0Impl
+// #define private public				// to get access to send and receive
 #include "EPosixClientSocket.cpp"
 #include "EClientSocketBase.cpp"	//	CLIENT_VERSION
 #undef private
