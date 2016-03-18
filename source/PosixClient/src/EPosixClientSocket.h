@@ -12,8 +12,8 @@ class EPosixClientSocket : public EClientSocketBase
 {
 public:
 
-	//(4 march 2013) JBOO give access to private members, instead of '#define private public'
-	friend class EClientL0Impl;
+	//(4 march 2013) JBOO: give access to private members; replaces '#define private public' in TwsApiL0.cpp
+	friend struct EClientL0Impl;
 
 	explicit EPosixClientSocket( EWrapper *ptr);
 	~EPosixClientSocket();
