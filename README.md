@@ -107,7 +107,7 @@ An simple example that demonstrates some strengths of the library is [Retrieve H
   if( UpdateAccountValueKey(key) == UpdateAccountValueKey::LookaheadAvailableFunds ) { ... }
 ```
 
-  See [TwsApiDefs.h](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h?ts=4).
+  See for [more explanation](https://github.com/JanBoonen/TwsApiCpp/wiki/TwsApiDefs.h) or for all [definitions](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h?ts=4).
 
 
 * **Protects the original IB code from uncatched exceptions thrown from the users EWrapper code**
