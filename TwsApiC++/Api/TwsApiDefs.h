@@ -103,6 +103,10 @@ namespace TwsApi
 		ENUM_V( Shortable                , 236 ) //	, 46
 		ENUM_V( Inventory                , 256 ) //	,  
 		ENUM_V( FundamentalRatios        , 258 ) //	, 47
+		ENUM_V( News                     , 292 ) //
+		ENUM_V( RTHistoricalVolatility   , 411 ) //
+		ENUM_V( IBDividends              , 456 ) //
+		ENUM_V( ShortTermVolume          , 595 ) //
 	ENUMFunctions( GenericTicks )
 
 	// To help with the assembly of the genericTicks string, the struct GenerciTickString will be usefull as follows:
@@ -126,65 +130,84 @@ namespace TwsApi
 
 	// The values in the market data EWrapper events
 	ENUMValues( TickTypes )                 // Used in these EWrapper calls , Value of genericTicks
-		ENUM_N( BidSize                )	//  0 tickSize()				,
-		ENUM_N( Bid                    )	//  1 tickPrice()				,
-		ENUM_N( Ask                    )	//  2 tickPrice()				,
-		ENUM_N( AskSize                )	//  3 tickSize()				,
-		ENUM_N( Last                   )	//  4 tickPrice() 				,
-		ENUM_N( LastSize               )	//  5 tickSize()				,
-		ENUM_N( High                   )	//  6 tickPrice() 				,
-		ENUM_N( Low                    )	//  7 tickPrice() 				,
-		ENUM_N( Volume                 )	//  8 tickSize()				,
-		ENUM_N( Close                  )	//  9 tickPrice()				,
-		ENUM_N( BidOptionComputation   )	// 10 tickOptionComputation()	,
-		ENUM_N( AskOptionComputation   )	// 11 tickOptionComputation()	,
-		ENUM_N( LastOptionComputation  )	// 12 tickOptionComputation()	,
-		ENUM_N( ModelOptionComputation )	// 13 tickOptionComputation()	,
-		ENUM_N( Open                   )	// 14 tickPrice()				,
-		ENUM_N( Low13Week              )	// 15 tickPrice()				, MiscellaneousStats
-		ENUM_N( High13Week             )	// 16 tickPrice()				, MiscellaneousStats
-		ENUM_N( Low26Week              )	// 17 tickPrice()				, MiscellaneousStats
-		ENUM_N( High26Week             )	// 18 tickPrice()				, MiscellaneousStats
-		ENUM_N( Low52Week              )	// 19 tickPrice()				, MiscellaneousStats
-		ENUM_N( High52Week             )	// 20 tickPrice()				, MiscellaneousStats
-		ENUM_N( AvgVolume              )	// 21 tickSize()				, MiscellaneousStats
-		ENUM_N( OpenInterest           )	// 22 tickSize()				,
-		ENUM_N( OptionHistoricalVol    )	// 23 tickGeneric()				, HistoricalVolatility
-		ENUM_N( OptionImpliedVol       )	// 24 tickGeneric()				, OptionImpliedVolatility
-		ENUM_N( OptionBidExch          )	// 25 NOT USED					,
-		ENUM_N( OptionAskExch          )	// 26 NOT USED					,
-		ENUM_N( OptionCallOpenInterest )	// 27 tickSize()				, OptionOpenInterest
-		ENUM_N( OptionPutOpenInterest  )	// 28 tickSize()				, OptionOpenInterest
-		ENUM_N( OptionCallVolume       )	// 29 tickSize()				, OptionVolume
-		ENUM_N( OptionPutVolume        )	// 30 tickSize()				, OptionVolume
-		ENUM_N( IndexFuturePremium     )	// 31 tickGeneric()				, IndexFuturePremium
-		ENUM_N( BidExch                )	// 32 tickString()				,
-		ENUM_N( AskExch                )	// 33 tickString()				,
-		ENUM_N( AuctionVolume          )	// 34 NOT USED					, Auctionvalues
-		ENUM_N( AuctionPrice           )	// 35 NOT USED					, Auctionvalues
-		ENUM_N( AuctionImbalance       )	// 36 NOT USED					, Auctionvalues
-		ENUM_N( MarkPrice              )	// 37 tickPrice()				, MarkPrice
-		ENUM_N( BidEfpComputation      )	// 38 tickEFP()					,
-		ENUM_N( AskEfpComputation      )	// 39 tickEFP()					,
-		ENUM_N( LastEfpComputation     )	// 40 tickEFP()					,
-		ENUM_N( OpenEfpComputation     )	// 41 tickEFP()					,
-		ENUM_N( HighEfpComputation     )	// 42 tickEFP()					,
-		ENUM_N( LowEfpComputation      )	// 43 tickEFP()					,
-		ENUM_N( CloseEfpComputation    )	// 44 tickEFP()					,
-		ENUM_N( LastTimestamp          )	// 45 tickString()				,
-		ENUM_N( Shortable              )	// 46 tickGeneric()				, Shortable
-		ENUM_N( FundamentalRatios      )	// 47 tickString()				, FundamentalRatios
-		ENUM_N( RtVolume               )	// 48 tickGeneric()				, RTVolume
-		ENUM_N( Halted                 )	// 49 tickGeneric()				,
-		ENUM_N( BidYield               )	// 50 tickPrice()				,
-		ENUM_N( AskYield               )	// 51 tickPrice()				,
-		ENUM_N( LastYield              )	// 52 tickPrice()				,
-		ENUM_N( CustOptionComputation  )	// 53 tickOptionComputation()	,
-		ENUM_N(	TRADE_COUNT            )	// 54 tickGeneric()             , since v9.65
-		ENUM_N(	TRADE_RATE             )	// 55 tickGeneric()             , since v9.65
-		ENUM_N(	VOLUME_RATE            )	// 56 tickGeneric()             , since v9.65
-		ENUM_N(	LAST_RTH_TRADE         )	// 57 tickGeneric()             , since v9.65
-		ENUM_N( NotSet                 )	// 
+		ENUM_N( BidSize                 )	//  0 tickSize()				,
+		ENUM_N( Bid                     )	//  1 tickPrice()				,
+		ENUM_N( Ask                     )	//  2 tickPrice()				,
+		ENUM_N( AskSize                 )	//  3 tickSize()				,
+		ENUM_N( Last                    )	//  4 tickPrice() 				,
+		ENUM_N( LastSize                )	//  5 tickSize()				,
+		ENUM_N( High                    )	//  6 tickPrice() 				,
+		ENUM_N( Low                     )	//  7 tickPrice() 				,
+		ENUM_N( Volume                  )	//  8 tickSize()				,
+		ENUM_N( Close                   )	//  9 tickPrice()				,
+		ENUM_N( BidOptionComputation    )	// 10 tickOptionComputation()	,
+		ENUM_N( AskOptionComputation    )	// 11 tickOptionComputation()	,
+		ENUM_N( LastOptionComputation   )	// 12 tickOptionComputation()	,
+		ENUM_N( ModelOptionComputation  )	// 13 tickOptionComputation()	,
+		ENUM_N( Open                    )	// 14 tickPrice()				,
+		ENUM_N( Low13Week               )	// 15 tickPrice()				, MiscellaneousStats
+		ENUM_N( High13Week              )	// 16 tickPrice()				, MiscellaneousStats
+		ENUM_N( Low26Week               )	// 17 tickPrice()				, MiscellaneousStats
+		ENUM_N( High26Week              )	// 18 tickPrice()				, MiscellaneousStats
+		ENUM_N( Low52Week               )	// 19 tickPrice()				, MiscellaneousStats
+		ENUM_N( High52Week              )	// 20 tickPrice()				, MiscellaneousStats
+		ENUM_N( AvgVolume               )	// 21 tickSize()				, MiscellaneousStats
+		ENUM_N( OpenInterest            )	// 22 tickSize()				,
+		ENUM_N( OptionHistoricalVol     )	// 23 tickGeneric()				, HistoricalVolatility
+		ENUM_N( OptionImpliedVol        )	// 24 tickGeneric()				, OptionImpliedVolatility
+		ENUM_N( OptionBidExch           )	// 25 NOT USED					,
+		ENUM_N( OptionAskExch           )	// 26 NOT USED					,
+		ENUM_N( OptionCallOpenInterest  )	// 27 tickSize()				, OptionOpenInterest
+		ENUM_N( OptionPutOpenInterest   )	// 28 tickSize()				, OptionOpenInterest
+		ENUM_N( OptionCallVolume        )	// 29 tickSize()				, OptionVolume
+		ENUM_N( OptionPutVolume         )	// 30 tickSize()				, OptionVolume
+		ENUM_N( IndexFuturePremium      )	// 31 tickGeneric()				, IndexFuturePremium
+		ENUM_N( BidExch                 )	// 32 tickString()				,
+		ENUM_N( AskExch                 )	// 33 tickString()				,
+		ENUM_N( AuctionVolume           )	// 34 NOT USED					, Auctionvalues
+		ENUM_N( AuctionPrice            )	// 35 NOT USED					, Auctionvalues
+		ENUM_N( AuctionImbalance        )	// 36 NOT USED					, Auctionvalues
+		ENUM_N( MarkPrice               )	// 37 tickPrice()				, MarkPrice
+		ENUM_N( BidEfpComputation       )	// 38 tickEFP()					,
+		ENUM_N( AskEfpComputation       )	// 39 tickEFP()					,
+		ENUM_N( LastEfpComputation      )	// 40 tickEFP()					,
+		ENUM_N( OpenEfpComputation      )	// 41 tickEFP()					,
+		ENUM_N( HighEfpComputation      )	// 42 tickEFP()					,
+		ENUM_N( LowEfpComputation       )	// 43 tickEFP()					,
+		ENUM_N( CloseEfpComputation     )	// 44 tickEFP()					,
+		ENUM_N( LastTimestamp           )	// 45 tickString()				,
+		ENUM_N( Shortable               )	// 46 tickGeneric()				, Shortable
+		ENUM_N( FundamentalRatios       )	// 47 tickString()				, FundamentalRatios
+		ENUM_N( RtVolume                )	// 48 tickGeneric()				, RTVolume
+		ENUM_N( Halted                  )	// 49 tickGeneric()				,
+		ENUM_N( BidYield                )	// 50 tickPrice()				,
+		ENUM_N( AskYield                )	// 51 tickPrice()				,
+		ENUM_N( LastYield               )	// 52 tickPrice()				,
+		ENUM_N( CustOptionComputation   )	// 53 tickOptionComputation()	,
+		ENUM_N( TRADE_COUNT             )	// 54 tickGeneric()             , since v9.65
+		ENUM_N( TRADE_RATE              )	// 55 tickGeneric()             , since v9.65
+		ENUM_N( VOLUME_RATE             )	// 56 tickGeneric()             , since v9.65
+		ENUM_N( LAST_RTH_TRADE          )	// 57 tickGeneric()             , since v9.65
+		ENUM_N( RTHistoricalVolatility  )	// 58 tickGeneric()				, RTHistoricalVolatility	//30-day real time historical volatility.
+		ENUM_N( IBDividends             )	// 59 tickString()				, IBDividends				//Contract's dividends. See IB Dividends.
+		ENUM_N( BondFactorMultiplier    )	// 60 METHOD	()				, 							//DESC
+		ENUM_N( RegulatoryImbalance     )	// 61 tickSize()				, 							//The imbalance that is used to determine which at-the-open or at-the-close orders can be entered following the publishing of the regulatory imbalance.
+		ENUM_N( News                    )	// 62 tickString()				, News						//1Contract's news feed.
+		ENUM_N( ShortTermVolume3Min     )	// 63 tickSize()				, ShortTermVolume			//The past three minutes volume. Interpolation may be applied.
+		ENUM_N( ShortTermVolume5Min     )	// 64 tickSize()				, ShortTermVolume			//The past five minutes volume. Interpolation may be applied.
+		ENUM_N( ShortTermVolume10Min    )	// 65 tickSize()				, ShortTermVolume			//The past ten minutes volume. Interpolation may be applied.
+		ENUM_N( DelayedBid              )	// 66 tickPrice()				, 							//Delayed bid price. See Real Time Market Data Types
+		ENUM_N( DelayedAsk              )	// 67 tickPrice()				, 							//Delayed ask price. See Real Time Market Data Types
+		ENUM_N( DelayedLast             )	// 68 tickPrice()				, 							//Delayed last traded price. See Real Time Market Data Types
+		ENUM_N( DelayedBidSize          )	// 69 tickSize()				, 							//Delayed bid size. See Real Time Market Data Types
+		ENUM_N( DelayedAskSize          )	// 70 tickSize()				, 							//Delayed ask size. See Real Time Market Data Types
+		ENUM_N( DelayedLastSize         )	// 71 tickSize()				, 							//Delayed last size. See Real Time Market Data Types
+		ENUM_N( DelayedHighPrice        )	// 72 tickPrice()				, 							//Delayed highest price of the day. See Real Time Market Data Types
+		ENUM_N( DelayedLowPrice         )	// 73 tickPrice()				, 							//Delayed lowest price of the day. See Real Time Market Data Types
+		ENUM_N( DelayedVolume           )	// 74 tickSize()				, 							//Delayed traded volume of the day. See Real Time Market Data Types
+		ENUM_N( DelayedClose            )	// 75 tickPrice()				, 							//DESC
+		ENUM_N( DelayedOpen             )	// 76 tickPrice()				, 							//DESC
+		ENUM_N( NotSet                  )	//
 	ENUMFunctions( TickTypes )
 
 	// The FUNDAMENTAL_RATIOS tickType (Tick Value 47) tag values, requested via
@@ -217,7 +240,7 @@ namespace TwsApi
 		ENUM_N( QLTD2EQ	              ) // LT debt/equity
 		ENUM_N( QTOTD2EQ	          ) // Total debt/total equity
 		ENUM_N( TTMPAYRAT	          ) // Payout ratio
-		ENUM_N( TTMREV	              ) // Revenue 
+		ENUM_N( TTMREV	              ) // Revenue
 		ENUM_N( TTMEBITD	          ) // EBITD
 		ENUM_N( TTMEBT	              ) // Earnings before taxes
 		ENUM_N( TTMNIAC	              ) // Net Income available to common
@@ -238,7 +261,7 @@ namespace TwsApi
 		ENUM_N( EPSTRENDGR	          ) // EPS growth rate
 		ENUM_N( DIVGRPCT	          ) // Growth rate % - dividend
 	ENUMFunctions( FundamentalRatios )
-		
+
 	//------------------------------------------------------------------------
 	//------------------------------------------------------------------------
 	// Could replace faDataType define in CommonDefs.h
@@ -254,7 +277,7 @@ namespace TwsApi
 	// EWrapper method support
 	//------------------------------------------------------------------------
 
-	//	virtual void orderStatus( OrderId orderId, const IBString& status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId ) {} 
+	//	virtual void orderStatus( OrderId orderId, const IBString& status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId ) {}
 	// Although it is a string, it is defined mixedcase in the documentation?!
 	ENUMValues( OrderStatus )
 		ENUM_N( Undefined      )
@@ -297,7 +320,7 @@ namespace TwsApi
 	IBString DateTime( int YYYYMMDD, int hh = 0, int mm = 0, int ss = 0, char Sep1 = ' ', char Sep2 = ':' )
 	#else
 	IBString DateTime( int YYYYMMDD, int hh    , int mm    , int ss    , char Sep1      , char Sep2       )
-	{   
+	{
 		char X[128]; sprintf( X, "%8d%c%02d%c%02d%c%02d", YYYYMMDD, Sep1, hh, Sep2, mm, Sep2, ss ); return X;
 	}
 	#endif
@@ -315,7 +338,7 @@ namespace TwsApi
 	ENUMFunctions( ServerLogLevel )
 
 
-	//	virtual void reqHistoricalData( TickerId id, const Contract &contract, 
+	//	virtual void reqHistoricalData( TickerId id, const Contract &contract,
 	//		const IBString &endDateTime, const IBString &durationStr, int barSizeSetting,
 	//		const IBString &whatToShow, int useRTH, int formatDate) = 0;
 	#ifndef ENUMImplementation
@@ -434,7 +457,7 @@ namespace TwsApi
 	// Contract properties
 	// http://individuals.interactivebrokers.com/php/apiUsersGuide/apiguide/c/contract.htm
 	//	=> STK, OPT, FUT, IND, FOP, CASH, BAG
-	// http://www.interactivebrokers.com.hk/php/webhelp/Making_Trades/baskets/manualBasket.htm	
+	// http://www.interactivebrokers.com.hk/php/webhelp/Making_Trades/baskets/manualBasket.htm
 
 	//	=> stk, opt, fut, fop, war, cash, fund, efp, bag
 	//------------------------------------------------------------------------
@@ -471,7 +494,7 @@ namespace TwsApi
 		ENUM_N( SEDOL )	// - The Stock Exchange Daily Official List (SEDOL) identifier consisting of 6-AN + check digit. Example: BAE: 0263494.
 		ENUM_N( RIC   )	//  - The Reuters instrument code, consisting of the RIC Root (exchange-independent) and a suffix identifying the exchange at which the contract trades. RIC Root is unique for each company. Example: AAPL.O for Apple on NASDAQ.
 	ENUMFunctions( SecIdType )// Notes: If the CUSIP is defined, then ISIP = [US/CA][CUSIP][check digit]. The ISIN and CUSIP can replace the underlying, but when a contract trades in several locations (regions), you must also provide the primary exchange.
-		
+
 	//------------------------------------------------------------------------
 	//	Order properties
 	//------------------------------------------------------------------------
@@ -594,7 +617,7 @@ namespace TwsApi
 		ENUM_N( Annual   )
 	ENUMFunctions( VolatilityType	 )
 
- 
+
 	ENUMValues( ReferencePriceType )
 		ENUM_V( AverageOfNBBO, 1 )	// starts with value = 1 // Average
 		ENUM_N( NBBOrNBO         )  // BidOrAsk
@@ -641,7 +664,7 @@ namespace TwsApi
 		ENUM_N( BUY  )
 		ENUM_N( SELL )
 	ENUMFunctions( ComboAction )
-	
+
 
 	ENUMValues( ComboOpenClose )
 		ENUM_N( SamePos    )
