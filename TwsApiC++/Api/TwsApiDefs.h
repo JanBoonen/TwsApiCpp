@@ -62,6 +62,7 @@ namespace TwsApi
 		ENUM_N( ME                            )
 		ENUM_N( MEFFRV                        )
 		ENUM_N( MONEP                         )
+		ENUM_N( NASDAQ                        )
 		ENUM_N( NYMEX                         )
 		ENUM_N( NYSE                          )
 		ENUM_N( ONE                           )
