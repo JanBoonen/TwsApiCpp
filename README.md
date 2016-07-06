@@ -2,11 +2,11 @@
 
 TwsApiC++ is a library build on top of the IB POSIX C++ library and makes programming with the IB api more easy and more robust.
   * it exposes only the 'trading functionality' available in [directory Shared](https://github.com/JanBoonen/TwsApiCpp/tree/master/source/PosixClient/Shared)
-  * hides all other non-trading functionality (i.e. sockets) and resolves these issues in a safe and robust way and protects the programmer from hard to discover pitfalls hidden in the IB code. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/History) page for a more detailed description and why it was created. It will be true for the upcoming version 9.72 as well.
+  * it hides all other non-trading functionality (i.e. sockets) and resolves these issues in a safe and robust way and protects the programmer from hard to discover pitfalls hidden in the IB code. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/History) page for a more detailed description and why it was created. It will be true for the upcoming version 9.72 as well.
 
 TwsApiC++ is availble freely since 2008 in [Yahoo's Interactive Brokers TWS APIDiscussion Groups](https://groups.yahoo.com/neo/groups/TWSAPI/files/C%2B%2B%20Code/TwsApiC%2B%2B%20Directory/). Versions 9.71 and up will be available only via this Github.
 
-TwsApiC++ is a ‘closed’ library on purpose. This means you cannot derive from its EClient (EClientL0) class and overwrites its methods and by accident break its inner workings. That guarantees the library is robust, solid. And why would you? Your trading system **uses** the EClient to achieve it's goal and **is not** an EClient. So use it as a member of your trading class.
+TwsApiC++ is a ‘closed’ library on purpose. This means you cannot derive from its EClient (EClientL0) class and overwrites its methods. That guarantees the library remains robust and solid and prevents its inner workings are broken by accident. And why would you? Your trading system **uses** the EClient to achieve it's goal and **is not** an EClient. So use it as a member of your trading class.
 
 
 ## Compiling and execution
