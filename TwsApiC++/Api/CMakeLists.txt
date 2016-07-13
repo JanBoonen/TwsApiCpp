@@ -1,0 +1,18 @@
+project(TWSAPI VERSION 9.71.0)
+
+set(LIBRARY_NAME tws_cpp_api)
+
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../Src)
+
+file(GLOB SOURCES ${SRC_DIR}/*.cpp)
+
+add_definitions(-D_REENTRANT -D_DEBUG)
+ 
+include_directories(${API_INCLUDE_DIR} ${SRC_DIR} 
+					${IB_POSIX_CLIENT_INCLUDE_DIR} ${IB_POSIX_CLIENT_SOURCE_DIR})
+
+add_library(${LIBRARY_NAME} ${API_INCLUDES} ${SOURCES} 
+			${IB_POSIX_CLIENT_SOURCES} ${IB_POSIX_CLIENT_INCLUDES})
+set_source_files_properties(${API_INCLUDES} ${IB_POSIX_CLIENT_INCLUDES} ${IB_POSIX_CLIENT_SOURCES}
+						    PROPERTIES HEADER_FILE_ONLY TRUE)
+target_compile_options(${LIBRARY_NAME} PRIVATE -Wall PUBLIC -std=gnu++0x)
