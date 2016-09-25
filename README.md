@@ -2,7 +2,12 @@
 
 TwsApiC++ is a library build on top of the IB POSIX C++ library and makes programming with the IB api more easy and more robust.
   * it exposes only the 'trading functionality' available in [directory Shared](https://github.com/JanBoonen/TwsApiCpp/tree/master/source/PosixClient/Shared)
-  * it hides all other non-trading functionality (i.e. sockets) and resolves these issues in a safe and robust way and protects the programmer from hard to discover pitfalls hidden in the IB code. See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/History) page for a more detailed description and why it was created. It will be true for the upcoming version 9.72 as well.
+  * it hides all other non-trading functionality (i.e. sockets)
+  * it resolves many issues left in the IB POSIX library in a safe and robust way and protects the programmer from hard to discover pitfalls hidden in the IB code.
+
+See the [wiki history](https://github.com/JanBoonen/TwsApiCpp/wiki/History) page for a more detailed description and why it was created. It will be true for the upcoming version 9.72 as well.
+
+See [what makes the use of twsapic worthwile](https://github.com/JanBoonen/TwsApiCpp/blob/master/README.md#what-makes-the-use-of-twsapic-worthwile) for a more detailed description of the issues TwsApiC++ resolves.
 
 TwsApiC++ is availble freely since 2008 in [Yahoo's Interactive Brokers TWS APIDiscussion Groups](https://groups.yahoo.com/neo/groups/TWSAPI/files/C%2B%2B%20Code/TwsApiC%2B%2B%20Directory/). Versions 9.71 and up will be available only via this Github.
 
