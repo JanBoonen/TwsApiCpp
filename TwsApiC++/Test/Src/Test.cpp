@@ -207,17 +207,18 @@ void TestEnums( void )
 
 struct Contract_ : public Contract
 {
-	Contract_( IBString sb, IBString st, IBString cr, IBString ex )
+	Contract_( IBString sb, IBString st, IBString cr, IBString ex, IBString pr_ex )
 	: Contract()
 	{
-		symbol			= sb;
-		secType			= st;		//"STK"
-		currency		= cr;
-		exchange		= ex;	//"SMART";
+		symbol				= sb;
+		secType				= st;		//"STK"
+		currency			= cr;
+		exchange			= ex;	  	//"SMART";
+		primaryExchange 	= pr_ex;	//"ISLAND";
 	}
 };
 
-Contract_			C( "MSFT", *SecType::STK, "USD", *Exchange::IB_SMART );
+Contract_			C( "MSFT", *SecType::STK, "USD", *Exchange::IB_SMART, *Exchange::ISLAND );
 
 int main( void )
 {
@@ -225,7 +226,7 @@ int main( void )
 
 //	TestEnums();
 
-	Contract_			C( "MSFT", *SecType::STK, "USD", *Exchange::IB_SMART );
+	//Contract_			C( "MSFT", *SecType::STK, "USD", *Exchange::IB_SMART );
 
 /*
 	Contract			C;
