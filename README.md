@@ -82,10 +82,10 @@ An simple example that demonstrates some strengths of the library is [Retrieve H
   As a programmer, you need to pass a lot of textual parameters into the EClient methods parameters and you have to compare incomings strings parameters in the EWrapper to interprete them. This is a big issue because these values are not always very well documented and making a typo can be hard to detect at runtime.
 
   TwsApiC++ has predefined these values:
-  -- allows them to use as named parameters what enables the compiler to check
-  -- definitions are grouped per parameter, can be used in if statements and switch statementt
-  -- all numeric values have a string value what makes reading code a lot easier, and can be printed out in the program as such
-  -- unknown parameter values received in EWrapper can be recognised and and can be printed i.e.
+  * allows them to use as named parameters what enables the compiler to check
+  * definitions are grouped per parameter, can be used in if statements and switch statementt
+  * all numeric values have a string value what makes reading code a lot easier, and can be printed out in the program as such
+  * unknown parameter values received in EWrapper can be recognised and and can be printed i.e.
   
   A quick example:
 ```C++
@@ -110,6 +110,9 @@ An simple example that demonstrates some strengths of the library is [Retrieve H
 
   // and the following would raise a compiling error
   if( UpdateAccountValueKey(key) == UpdateAccountValueKey::LookaheadAvailableFunds ) { ... }
+  
+  // while the following doesn't, but does not work at runtime either!
+  if( key == "LookaheadAvailableFunds" ) { ... } // Ahead with capital A!
 ```
 
   See for [more explanation](https://github.com/JanBoonen/TwsApiCpp/wiki/TwsApiDefs.h) or for all [definitions](https://github.com/JanBoonen/TwsApiCpp/blob/master/TwsApiC++/Api/TwsApiDefs.h?ts=4).
