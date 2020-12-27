@@ -28,7 +28,7 @@ The footprint of the library is small and fast.
 ## Examples programs
 There are some examples programs included in the delivery in the [TwsApiC++/Test/Src](https://github.com/JanBoonen/TwsApiCpp/tree/master/TwsApiC%2B%2B/Test/Src) directory.
 
-An simple example that demonstrates some strengths of the library is [Retrieve History](https://github.com/JanBoonen/TwsApiCpp/wiki/Example---Retrieve-History) in the wiki pages.
+An simple example that demonstrates some strengths of the library is [Retrieve History](https://github.com/JanBoonen/TwsApiCpp/wiki/Example:-Retrieve-History) in the wiki pages.
 
 ## What makes the use of TwsApiC++ worthwile
 
