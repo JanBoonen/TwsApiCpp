@@ -445,10 +445,10 @@ struct EClientL0Impl: public EPosixClientSocket
 		if( m_EWrapperL0->IsCalledFromThread() && isConnected() )
 			return false;
 
-		return checkMessagesOnce(1);
+		return checkMessagesOnce();
 	}
 
-	bool checkMessagesOnce( long waitfor = 0 )
+	bool checkMessagesOnce()
 	{
 		_TRY_
 	//	fprintf( stderr, "ThreadId = %d    \r", CurrentThreadId() );
@@ -459,8 +459,13 @@ struct EClientL0Impl: public EPosixClientSocket
 		fd_set WriteSet; FD_ZERO( &WriteSet ); if( !isOutBufferEmpty() ) FD_SET ( SH, &WriteSet );
 		fd_set ErrorSet; FD_ZERO( &ErrorSet ); FD_SET ( SH, &ErrorSet );
 
-		struct timeval timeout = {0,waitfor};	// wait for some milli/micro seconds
-		int s = select( SH+1, &ReadSet, &WriteSet, &ErrorSet, &timeout );
+		// If everything is sharing a single thread, we can't block here. However, a
+		// "return immediately" 0 timeout will use 100% CPU. So, ask for a 1 microsecond
+		// timeout as a compromise.
+		// On the other hand, if this network I/O has its own thread, we can just block.
+		struct timeval timeout = {0,1};
+		struct timeval* timeout_ptr = m_EWrapperL0->IsCalledFromThread() ? 0 : &timeout;
+		int s = select( SH+1, &ReadSet, &WriteSet, &ErrorSet, timeout_ptr );
 				s = s; // turn of -Wall warning
 
 
@@ -488,8 +493,8 @@ struct EClientL0Impl: public EPosixClientSocket
 		_TRY_
 		while( isSocketOK() && isConnected() && m_EWrapperL0Impl.IsEnableCalls() )
 		{
-			checkMessagesOnce(1);	// the minimal time possible to wait is enough
-		}							// to prevent this loop using 100% of the cpu
+			checkMessagesOnce();
+		}
 		_CATCH_
 
 		m_ThreadIsRunning = false;
