@@ -205,6 +205,12 @@ bool EPosixClientSocket::handleSocketError()
 	if( errno == EISCONN) {
 		return true;
 	}
+	// A socket syscall was interrupted. Fortunately the rest of the code is already
+	// set up to retry appropriately (unless this function returns false), so this
+	// is all the handling necessary.
+	if( errno == EINTR) {
+		return true;
+	}
 
 	if( errno == EWOULDBLOCK)
 		return false;
