@@ -79,9 +79,6 @@ struct Order
 
 		// SMART routing only
 		discretionaryAmt = 0;
-		eTradeOnly       = true;
-		firmQuoteOnly    = true;
-		nbboPriceCap     = UNSET_DOUBLE;
 		optOutSmartRouting = false;
 
 		// BOX exchange orders only
@@ -186,9 +183,6 @@ struct Order
 
 	// SMART routing only
 	double   discretionaryAmt;
-	bool     eTradeOnly;
-	bool     firmQuoteOnly;
-	double   nbboPriceCap;
 	bool     optOutSmartRouting;
 
 	// BOX exchange orders only

@@ -1807,9 +1807,9 @@ void EClientSocketBase::placeOrder( OrderId id, const Contract &contract, const 
 	ENCODE_FIELD( order.allOrNone);
 	ENCODE_FIELD_MAX( order.minQty);
 	ENCODE_FIELD_MAX( order.percentOffset);
-	ENCODE_FIELD( order.eTradeOnly);
-	ENCODE_FIELD( order.firmQuoteOnly);
-	ENCODE_FIELD_MAX( order.nbboPriceCap);
+	ENCODE_FIELD( false);
+	ENCODE_FIELD( false);
+	ENCODE_FIELD_MAX( UNSET_DOUBLE);
 	ENCODE_FIELD( order.auctionStrategy); // AUCTION_MATCH, AUCTION_IMPROVEMENT, AUCTION_TRANSPARENT
 	ENCODE_FIELD_MAX( order.startingPrice);
 	ENCODE_FIELD_MAX( order.stockRefPrice);
@@ -3139,9 +3139,12 @@ int EClientSocketBase::processMsg(const char*& beginPtr, const char* endPtr)
 				DECODE_FIELD( order.allOrNone); // ver 9 field
 				DECODE_FIELD_MAX( order.minQty); // ver 9 field
 				DECODE_FIELD( order.ocaType); // ver 9 field
-				DECODE_FIELD( order.eTradeOnly); // ver 9 field
-				DECODE_FIELD( order.firmQuoteOnly); // ver 9 field
-				DECODE_FIELD_MAX( order.nbboPriceCap); // ver 9 field
+                bool eTradeOnly;
+				DECODE_FIELD( eTradeOnly); // ver 9 field
+                bool firmQuoteOnly;
+				DECODE_FIELD( firmQuoteOnly); // ver 9 field
+                double nbboPriceCap;
+				DECODE_FIELD_MAX( nbboPriceCap); // ver 9 field
 
 				DECODE_FIELD( order.parentId); // ver 10 field
 				DECODE_FIELD( order.triggerMethod); // ver 10 field
